@@ -2,7 +2,6 @@ import express from 'express';
 import parser from 'body-parser';
 import celebrate from 'celebrate';
 import cors from 'cors';
-import dotenv from 'dotenv';
 import helmet from 'helmet';
 import mongoose from 'mongoose';
 
@@ -18,17 +17,11 @@ import rateLimiter from './middlewares/rate-limiter';
 import NotFoundError from './errors/not-found-error';
 
 import messages from './utils/messages';
-import { DEFAULT_PORT, DEFAULT_CONN_STRING } from './utils/defaults';
-
-dotenv.config();
-const {
-  PORT = DEFAULT_PORT,
-  CONN_STRING = DEFAULT_CONN_STRING,
-} = process.env;
+import config from './utils/config';
 
 const app = express();
 
-mongoose.connect(CONN_STRING, {
+mongoose.connect(config.CONN_STRING, {
   useNewUrlParser: true,
   useCreateIndex: true,
   useFindAndModify: false,
@@ -59,4 +52,4 @@ app.use('/', (req, res) => {
 app.use(celebrate.errors());
 app.use(errorHandler);
 
-app.listen(PORT, () => {});
+app.listen(config.PORT, () => {});

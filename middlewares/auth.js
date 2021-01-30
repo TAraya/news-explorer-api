@@ -1,11 +1,7 @@
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
 
 import messages from '../utils/messages';
-import { JWT_SECRET } from '../utils/defaults';
-
-dotenv.config();
-const { SECRET = JWT_SECRET } = process.env;
+import config from '../utils/config';
 
 export default (req, res, next) => {
   const { authorization } = req.headers;
@@ -17,7 +13,7 @@ export default (req, res, next) => {
   const token = authorization.replace('Bearer ', '');
   let payload;
   try {
-    payload = jwt.verify(token, SECRET);
+    payload = jwt.verify(token, config.SECRET);
   } catch (err) {
     return res.status(401).send({ message: messages.authRequired });
   }

@@ -1,6 +1,5 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import dotenv from 'dotenv';
 
 import userModel from '../models/user';
 
@@ -8,11 +7,8 @@ import ConflictError from '../errors/conflict-error';
 import UnauthorizedError from '../errors/unauthorized-error';
 import ValidationError from '../errors/validation-error';
 
+import config from '../utils/config';
 import messages from '../utils/messages';
-import { JWT_SECRET } from '../utils/defaults';
-
-dotenv.config();
-const { SECRET = JWT_SECRET } = process.env;
 
 async function login(req, res, next) {
   try {
@@ -30,7 +26,7 @@ async function login(req, res, next) {
 
     const token = jwt.sign(
       { _id: user._id },
-      SECRET,
+      config.SECRET,
       { expiresIn: '7d' },
     );
 
