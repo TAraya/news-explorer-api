@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 
 import userModel from '../models/user';
 
@@ -10,6 +11,7 @@ import ValidationError from '../errors/validation-error';
 import messages from '../utils/messages';
 import { JWT_SECRET } from '../utils/defaults';
 
+dotenv.config();
 const { SECRET = JWT_SECRET } = process.env;
 
 async function login(req, res, next) {

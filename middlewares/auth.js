@@ -1,8 +1,10 @@
 import jwt from 'jsonwebtoken';
+import dotenv from 'dotenv';
 
 import messages from '../utils/messages';
 import { JWT_SECRET } from '../utils/defaults';
 
+dotenv.config();
 const { SECRET = JWT_SECRET } = process.env;
 
 export default (req, res, next) => {
