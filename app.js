@@ -2,6 +2,7 @@ import express from 'express';
 import parser from 'body-parser';
 import celebrate from 'celebrate';
 import cors from 'cors';
+import dotenv from 'dotenv';
 import helmet from 'helmet';
 import mongoose from 'mongoose';
 
@@ -16,8 +17,10 @@ import rateLimiter from './middlewares/rate-limiter';
 
 import NotFoundError from './errors/not-found-error';
 
+import messages from './utils/messages';
 import { DEFAULT_PORT, DEFAULT_CONN_STRING } from './utils/defaults';
 
+dotenv.config();
 const {
   PORT = DEFAULT_PORT,
   CONN_STRING = DEFAULT_CONN_STRING,
@@ -50,7 +53,7 @@ app.use(usersRouter);
 
 // eslint-disable-next-line no-unused-vars
 app.use('/', (req, res) => {
-  throw new NotFoundError('Запрашиваемый ресурс не найден');
+  throw new NotFoundError(messages.pathNotFound);
 });
 
 app.use(celebrate.errors());

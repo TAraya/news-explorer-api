@@ -1,8 +1,8 @@
-import { Router } from 'express';
+import express from 'express';
 
 import { getCurrentUser } from '../controllers/users';
 
-const usersRouter = Router();
+const usersRouter = express.Router();
 
 usersRouter.get(
   '/users/me',

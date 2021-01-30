@@ -1,19 +1,19 @@
-import { celebrate, Joi } from 'celebrate';
-import { Router } from 'express';
+import celebrate from 'celebrate';
+import express from 'express';
 
 import { login, createUser } from '../controllers/sign';
 
 import { notWhitespacesValidator } from '../utils/validation';
 
-const signRouter = Router();
+const signRouter = express.Router();
 
 signRouter.post(
   '/signin',
-  celebrate({
-    body: Joi.object().keys({
-      email: Joi.string().required().email()
+  celebrate.celebrate({
+    body: celebrate.Joi.object().keys({
+      email: celebrate.Joi.string().required().email()
         .custom(notWhitespacesValidator),
-      password: Joi.string().required().min(6)
+      password: celebrate.Joi.string().required().min(6)
         .custom(notWhitespacesValidator),
     }),
   }),
@@ -22,13 +22,13 @@ signRouter.post(
 
 signRouter.post(
   '/signup',
-  celebrate({
-    body: Joi.object().keys({
-      email: Joi.string().required().email()
+  celebrate.celebrate({
+    body: celebrate.Joi.object().keys({
+      email: celebrate.Joi.string().required().email()
         .custom(notWhitespacesValidator),
-      password: Joi.string().required().min(6)
+      password: celebrate.Joi.string().required().min(6)
         .custom(notWhitespacesValidator),
-      name: Joi.string().required().min(2).max(30)
+      name: celebrate.Joi.string().required().min(2).max(30)
         .custom(notWhitespacesValidator),
     }),
   }),

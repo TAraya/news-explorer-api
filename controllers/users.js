@@ -2,11 +2,13 @@ import model from '../models/user';
 
 import NotFoundError from '../errors/not-found-error';
 
+import messages from '../utils/messages';
+
 async function getCurrentUser(req, res, next) {
   try {
     const user = await model.findById(req.user._id);
     if (!user) {
-      throw new NotFoundError('Пользователь не найден');
+      throw new NotFoundError(messages.userNotFound);
     }
 
     res.send({

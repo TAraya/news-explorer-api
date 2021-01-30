@@ -4,6 +4,8 @@ import ForbiddenError from '../errors/forbidden-error';
 import NotFoundError from '../errors/not-found-error';
 import ValidationError from '../errors/validation-error';
 
+import messages from '../utils/messages';
+
 async function getArticles(req, res, next) {
   try {
     const articles = await articleModel.find({ owner: req.user });
@@ -28,7 +30,7 @@ async function createArticle(req, res, next) {
     res.send({ data: article });
   } catch (err) {
     if (err.name === 'ValidationError') {
-      next(new ValidationError('Переданы некорректные данные'));
+      next(new ValidationError(messages.badRequest));
       return;
     }
 
@@ -41,18 +43,18 @@ async function deleteArticle(req, res, next) {
     const article = await articleModel.findById(req.params.articleId).select('+owner');
 
     if (!article) {
-      throw new NotFoundError('Статья не найдена');
+      throw new NotFoundError(messages.articleNotFound);
     }
 
     if (article.owner._id.toString() !== req.user._id) {
-      throw new ForbiddenError('Статья принадлежит другому пользователю');
+      throw new ForbiddenError(messages.articleWrongOwner);
     }
 
     await articleModel.deleteOne({ _id: req.params.articleId });
     res.sendStatus(200);
   } catch (err) {
     if (err.name === 'CastError') {
-      next(new ValidationError('Невалидный id'));
+      next(new ValidationError(messages.incorrectId));
       return;
     }
 

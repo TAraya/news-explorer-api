@@ -1,9 +1,9 @@
-import { celebrate, Joi } from 'celebrate';
-import { Router } from 'express';
+import celebrate from 'celebrate';
+import express from 'express';
 
 import { getArticles, createArticle, deleteArticle } from '../controllers/articles';
 
-const indexRouter = Router();
+const indexRouter = express.Router();
 
 indexRouter.get(
   '/articles',
@@ -12,15 +12,15 @@ indexRouter.get(
 
 indexRouter.post(
   '/articles',
-  celebrate({
-    body: Joi.object().keys({
-      keyword: Joi.string().required(),
-      title: Joi.string().required(),
-      text: Joi.string().required(),
-      date: Joi.date().required(),
-      source: Joi.string().required(),
-      link: Joi.string().required().uri(),
-      image: Joi.string().required().uri(),
+  celebrate.celebrate({
+    body: celebrate.Joi.object().keys({
+      keyword: celebrate.Joi.string().required(),
+      title: celebrate.Joi.string().required(),
+      text: celebrate.Joi.string().required(),
+      date: celebrate.Joi.date().required(),
+      source: celebrate.Joi.string().required(),
+      link: celebrate.Joi.string().required().uri(),
+      image: celebrate.Joi.string().required().uri(),
     }),
   }),
   createArticle,
@@ -28,9 +28,9 @@ indexRouter.post(
 
 indexRouter.delete(
   '/articles/:articleId',
-  celebrate({
-    headers: Joi.object().keys({
-      articleId: Joi.string().hex().length(24),
+  celebrate.celebrate({
+    headers: celebrate.Joi.object().keys({
+      articleId: celebrate.Joi.string().hex().length(24),
     }).unknown(true),
   }),
   deleteArticle,
